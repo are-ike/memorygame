@@ -6,27 +6,29 @@ document.addEventListener('DOMContentLoaded', () =>{
     //array containing images
     const imgs = document.querySelectorAll('.card img');
     //array to contain images srcs index
-    const arr = [];
+    let arr = [];
+    //array to contain image index
+    const img = [];
 
-    //assign img srcs to three imgs
+    //add to arr, randomly, index of three images to be used
     while(arr.length < 3){
-        //store random numbers generated. one for index of imgs, one for index of img srcs
-        let ind = parseInt(Math.random()*10) % 6;
-        let int = parseInt(Math.random()*10) % 6;
-        if(!arr.includes(int)){ //if the src is not in the array already then add
-            arr.push(int);
-            imgs[ind].src = src[int];
-        }
+        let num = parseInt(Math.random()*10) % 6;
+        if(!arr.includes(num)){
+            arr.push(num)
+        } 
     }
-    //assign src using arr containing index for remaining three images
-    let i = 0
-    while(arr.length > 0){
-        if(!imgs[i].hasAttribute('src')){ //if image has no source
-            let int = parseInt(Math.random()*10) % (arr.length); //choose the index to get srcs randomly within bound of array
-            imgs[i].src = src[arr[int]]; //assign
-            arr.splice(int, 1); //remove src index so it won't be used again   
-        }
-        i++;
+    arr = arr.concat(arr); //duplicate array to match the six images
+
+    //add to array, randomly, index of images
+    while(img.length < 6){
+        let num = parseInt(Math.random()*10) % 6;
+        if(!img.includes(num)){
+            img.push(num)
+        } 
+    }
+    //match src index to images
+    for(let i = 0; i < 6; i++){
+        imgs[img[i]].src = src[arr[i]];
     }
 });
 
@@ -136,14 +138,11 @@ function gameOverVerdict(verdict){
 }
 //Add events to game over modal btns
 function addEventsToBtns(){
-    if(document.querySelector('#play-again')){ //if play again btn is present, play again event
-        document.querySelector('#play-again').addEventListener('click', ()=>{
+    document.querySelector('#play-again').addEventListener('click', ()=>{
         location.reload(); //reload page
     });
-    }
-    if(document.querySelector('#exit')){ //if exit btn is present, exit game event. Go to home page
-        document.querySelector('#exit').addEventListener('click', ()=>{
-            location.pathname ='index.html';
-        });
-    }
+    document.querySelector('#exit').addEventListener('click', ()=>{
+        location.pathname ='/index.html';
+    });
+    
 }
